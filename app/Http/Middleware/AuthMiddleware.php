@@ -14,7 +14,12 @@ class AuthMiddleware
         if (!$token) { return response()->json(['message' => 'Token not provided.'], 401); }
         $token = str_replace('Bearer ', '', $token);
         try {
-            $credentials = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
+            $secret = env('JWT_SECRET');
+            if (!is_string($secret) || empty($secret)) {
+                return response()->json(['message' => 'JWT_SECRET not set properly.'], 500);
+            }
+
+            $credentials = JWT::decode($token, new Key($secret, 'HS256'));
             $user = User::withTrashed()->find($credentials->sub);
             if (!$user) { return response()->json(['message' => 'Unauthorized user.'], 401); }
             $request->auth = $user;

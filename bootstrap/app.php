@@ -23,6 +23,10 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+// Pastikan env ter-load di semua context (middleware, dsb)
+Dotenv\Dotenv::createImmutable(dirname(__DIR__))->safeLoad();
+
+
  $app->withFacades();
 
  $app->withEloquent();
