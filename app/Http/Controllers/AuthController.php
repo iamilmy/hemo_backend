@@ -81,15 +81,17 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 
-        // Muat relasi peran user jika belum dimuat (walaupun sudah dimuat oleh Auth::user() jika guard sudah dikonfigurasi)
-        $user->load('roles');
+        $user->load('roles'); // Pastikan roles dimuat
+        // \Log::info('--- AuthController@profile Debug ---');
+        // \Log::info('User ID: ' . $user->id);
+        // \Log::info('User Roles: ' . json_encode($user->roles->pluck('name')->toArray())); // Log peran user
+        // \Log::info('--- End AuthController@profile Debug ---');
 
-        // Dapatkan semua hak akses menu untuk user ini
         $menuPermissions = $user->getAllMenuPermissions();
 
         return response()->json([
             'user' => array_merge($user->only(['id', 'name', 'email']), ['roles' => $user->roles->pluck('name')->toArray()]),
-            'permissions' => $menuPermissions, // Kirim permissions ke frontend
+            'permissions' => $menuPermissions,
         ]);
     }
 }

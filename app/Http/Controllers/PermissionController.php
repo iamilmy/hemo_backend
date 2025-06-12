@@ -13,8 +13,8 @@ class PermissionController extends Controller
     public function __construct()
     {
         // Pastikan user terautentikasi dan memiliki peran 'super_admin' untuk mengakses fitur ini
-        $this->middleware('auth');
-        $this->middleware('role:super_admin'); // Middleware untuk membatasi akses hanya ke super_admin
+       // $this->middleware('auth');
+       // $this->middleware('role:super_admin'); // Middleware untuk membatasi akses hanya ke super_admin
     }
 
     /**

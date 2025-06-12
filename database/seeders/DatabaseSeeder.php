@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             RolesTableSeeder::class,    // Ini harus dijalankan setelah Users, untuk membuat role
             UserRoleTableSeeder::class, // Ini harus dijalankan setelah Users dan Roles, untuk mengaitkan
             MenusTableSeeder::class,    // Ini harus dijalankan setelah Roles, untuk membuat menu
+            AppSettingsSeeder::class, // <-- TAMBAHKAN BARIS INI
+            SuperAdminMenuPermissionsSeeder::class, // <-- TAMBAHKAN BARIS INI
         ]);
     }
 }

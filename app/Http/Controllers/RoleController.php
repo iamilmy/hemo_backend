@@ -191,7 +191,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+   public function destroy($id)
     {
         $user = Auth::user();
         $permissions = $user->getAllMenuPermissions();
@@ -202,21 +202,25 @@ class RoleController extends Controller
             return response()->json(['message' => 'Forbidden: You do not have permission to delete roles.'], 403);
         }
 
-        // --- Logika yang sudah ada untuk menghapus role ---
         DB::beginTransaction();
         try {
-            $role = Role::find($id);
+            $role = Role::withCount('users')->find($id);
 
             if (!$role) {
                 return response()->json(['message' => 'Peran tidak ditemukan'], 404);
             }
 
-            if ($role->users()->count() > 0) {
-                return response()->json(['message' => 'Tidak dapat menghapus peran karena masih ada pengguna yang terkait dengan peran ini.'], 409);
+            // ❗ Ganti pengecekan user terkait dengan relasi many-to-many (users_count berasal dari withCount)
+            if ($role->users_count > 0) {
+                return response()->json([
+                    'message' => 'Tidak dapat menghapus peran karena masih ada pengguna yang terkait dengan peran ini.'
+                ], 409);
             }
 
+            // Hapus relasi ke menu
             $role->menus()->detach();
 
+            // Hapus peran
             $role->delete();
 
             DB::commit();
@@ -224,7 +228,11 @@ class RoleController extends Controller
             return response()->json(['message' => 'Peran berhasil dihapus!']);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Gagal menghapus peran!', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Gagal menghapus peran!',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
 }

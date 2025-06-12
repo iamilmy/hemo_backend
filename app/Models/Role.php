@@ -10,14 +10,11 @@ class Role extends Model
         'name', 'display_name', 'description'
     ];
 
-    public function users()
+   public function users()
     {
-        // Sesuaikan relasi ini berdasarkan bagaimana user berelasi dengan role
-        // Jika user memiliki kolom role_id:
-        return $this->hasMany(User::class, 'role_id'); // Jika 'role_id' ada di tabel 'users'
-        // Jika many-to-many (melalui role_user):
-        // return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
+        return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
     }
+
 
     public function menus()
     {

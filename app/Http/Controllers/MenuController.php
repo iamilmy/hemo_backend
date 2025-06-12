@@ -140,7 +140,7 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 100);
         $search = $request->input('search');
         $parentOnly = $request->input('is_main_menu');
 
@@ -176,7 +176,7 @@ class MenuController extends Controller
             $this->validate($request, [
                 'label' => 'required|string|max:255',
                 'icon' => 'nullable|string|max:255',
-                'path' => 'nullable|string|max:255|unique:menus,path',
+                'path' => 'nullable|string|max:255|unique:menus,path,NULL,id,path,!#',
                 'order' => 'required|integer',
                 'parent_id' => 'nullable|exists:menus,id',
                 'is_logout' => 'boolean',

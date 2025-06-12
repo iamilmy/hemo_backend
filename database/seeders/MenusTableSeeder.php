@@ -54,7 +54,7 @@ class MenusTableSeeder extends Seeder
         $roleManagementMenu = Menu::create([
             'label' => 'Role',
             'icon' => 'mdiLock', // Contoh ikon
-            'path' => '/roles-management',
+            'path' => '/roles',
             'order' => 21,
             'is_main_menu' => false,
             'parent_id' => $superAdminMenu->id, // Parent adalah menu Super Admin
@@ -64,7 +64,7 @@ class MenusTableSeeder extends Seeder
         $userManagementMenu = Menu::create([
             'label' => 'User',
             'icon' => 'mdiShieldAccount',
-            'path' => '/users-management',
+            'path' => '/users',
             'order' => 22,
             'is_main_menu' => false,
             'parent_id' => $superAdminMenu->id,
@@ -74,7 +74,7 @@ class MenusTableSeeder extends Seeder
         $menuManagement = Menu::create([
             'label' => 'Menu',
             'icon' => 'mdiMenu', // Contoh ikon
-            'path' => '/menus-management',
+            'path' => '/menus',
             'order' => 23,
             'is_main_menu' => false,
             'parent_id' => $superAdminMenu->id,
@@ -93,7 +93,7 @@ class MenusTableSeeder extends Seeder
 
         $appSettingMenu = Menu::create([
             'label' => 'App Setting',
-            'icon' => 'mdiSettings',
+            'icon' => 'mdiCogOutline',
             'path' => '/app-setting',
             'order' => 25,
             'is_main_menu' => false,
